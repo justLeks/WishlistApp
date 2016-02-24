@@ -19,7 +19,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:dao-context.xml
+            classpath:repository-context.xml
             classpath:security-context.xml
             classpath:service-context.xml
         </param-value>

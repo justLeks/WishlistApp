@@ -11,5 +11,10 @@ public interface PresentDao {
 
     List<Present> findByUserId(int iduser);
 
+    Present findByWishIdAndUserId(int idWish, int idUser);
+
     boolean add(Present present);
+
+    boolean delete(int idWish, int idUser);
+
 }

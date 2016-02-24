@@ -25,7 +25,15 @@ public class PresentService {
         return presentDao.findByUserId(iduser);
     }
 
+    public Present findByWishIdAndUserId(int idWish, int idUser) {
+        return presentDao.findByWishIdAndUserId(idWish, idUser);
+    }
+
     public boolean add(Present present) {
         return presentDao.add(present);
+    }
+
+    public boolean delete(int idWish, int idUser) {
+        return presentDao.delete(idWish, idUser);
     }
 }

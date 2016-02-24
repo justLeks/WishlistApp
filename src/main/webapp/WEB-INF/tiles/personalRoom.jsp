@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <input type="hidden" value="${idUser}" id="id-user">
+<input type="hidden" id="item-id" value="">
 
 <div class="ui-widget">
     <table>
@@ -47,8 +48,8 @@
     <div id="mainHolder"></div>
     <br>
 
-    <input type="button" id="joins" value="My joins">
+    <input type="button" id="show-joins" value="My joins">
     <br>
-    <div id="show-joins"></div>
-    <br>
+    <div id="joins"></div>
+
 </div>

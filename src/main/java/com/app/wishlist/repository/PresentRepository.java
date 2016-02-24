@@ -1,7 +1,9 @@
-package com.app.wishlist.dao;
+package com.app.wishlist.repository;
 
+import com.app.wishlist.dao.PresentDao;
 import com.app.wishlist.model.Present;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -64,8 +66,19 @@ public class PresentRepository implements PresentDao {
                 });
     }
 
+    public Present findByWishIdAndUserId(int idWish, int idUser) {
+        return jdbc.queryForObject("select * from public.present where idwish = ? and iduser = ?",
+                new Object[]{idWish, idUser},
+                new BeanPropertyRowMapper<Present>(Present.class));
+    }
+
     public boolean add(Present present) {
         return jdbc.update("insert into public.present (idwish, iduser) values (?, ?)",
                 present.getIdwish(), present.getIduser()) == 1;
+    }
+
+    public boolean delete(int idWish, int idUser) {
+        return jdbc.update("delete from public.present where idwish = ? and iduser = ?",
+                idWish, idUser) == 1;
     }
 }

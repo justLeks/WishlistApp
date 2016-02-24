@@ -56,4 +56,17 @@ public class PresentRestController {
 
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
+
+    @RequestMapping(value = "/presents/{iduser}&{idwish}", method = RequestMethod.DELETE)
+    public ResponseEntity<Present> deleteUser(@PathVariable int iduser, @PathVariable int idwish) {
+        Present present = presentService.findByWishIdAndUserId(idwish, iduser);
+
+        if (present == null) {
+            return new ResponseEntity<Present>(HttpStatus.NOT_FOUND);
+        }
+
+        presentService.delete(idwish, iduser);
+
+        return new ResponseEntity<Present>(HttpStatus.NO_CONTENT);
+    }
 }

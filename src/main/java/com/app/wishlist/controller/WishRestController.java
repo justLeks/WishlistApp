@@ -16,7 +16,7 @@ public class WishRestController {
     @Autowired
     private WishService wishService;
 
-    @RequestMapping(value = "/wishes", method = RequestMethod.GET)
+    @RequestMapping(value = "/wishes/", method = RequestMethod.GET)
     public ResponseEntity<List<Wish>> findAll() {
         List<Wish> wishes = wishService.findAll();
 
@@ -27,7 +27,7 @@ public class WishRestController {
         return new ResponseEntity<List<Wish>>(wishes, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/wishes/{idUser}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/wishes/userid/{idUser}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Wish>> getWishByUserId(@PathVariable int idUser) {
         List<Wish> wishes = wishService.findByUserId(idUser);
 
@@ -36,6 +36,17 @@ public class WishRestController {
         }
 
         return new ResponseEntity<List<Wish>>(wishes, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/wishes/wishid/{idWish}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Wish> getWishByWishId(@PathVariable int idWish) {
+        Wish wish = wishService.findByWishId(idWish);
+
+        if (wish == null) {
+            return new ResponseEntity<Wish>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<Wish>(wish, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/wishes/", method = RequestMethod.POST)

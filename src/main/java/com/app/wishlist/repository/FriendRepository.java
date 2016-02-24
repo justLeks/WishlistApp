@@ -1,5 +1,6 @@
-package com.app.wishlist.dao;
+package com.app.wishlist.repository;
 
+import com.app.wishlist.dao.FriendDao;
 import com.app.wishlist.model.Friend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

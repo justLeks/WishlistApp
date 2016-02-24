@@ -203,7 +203,7 @@ $(document).ready(function () {
         var userId = $("#id-user").val();
 
         $.ajax({
-            url: "http://localhost:8080/wishes/" + userId
+            url: "http://localhost:8080/wishes/userid/" + userId
         }).then(function (json) {
             $("#user-wishes").empty()
                 .append("<h3>My wishes</h3>");
@@ -214,27 +214,27 @@ $(document).ready(function () {
                 }).then(function (item) {
                     var root = document.getElementById("user-wishes");
                     if (root) {
-                        $.ajax({
-                            url: "http://localhost:8080/wishes/" + wish.idItem
-                        }).then(function (wish) {
-                            var name_field = document.createElement('p');
-                            var nameFieldId = "wish-name" + i;
-                            name_field.setAttribute("id", nameFieldId);
-                            name_field.appendChild(document.createTextNode(item.name));
-                            root.appendChild(name_field);
+                        //$.ajax({
+                        //    //url: "http://localhost:8080/wishes/" + wish.idItem
+                        //}).then(function (wish) {
+                        var name_field = document.createElement('p');
+                        var nameFieldId = "wish-name" + i;
+                        name_field.setAttribute("id", nameFieldId);
+                        name_field.appendChild(document.createTextNode(item.name));
+                        root.appendChild(name_field);
 
-                            var description_field = document.createElement('p');
-                            var descriptionFieldId = "wish-description" + i;
-                            description_field.setAttribute("id", descriptionFieldId);
-                            description_field.appendChild(document.createTextNode(item.description));
-                            root.appendChild(description_field);
+                        var description_field = document.createElement('p');
+                        var descriptionFieldId = "wish-description" + i;
+                        description_field.setAttribute("id", descriptionFieldId);
+                        description_field.appendChild(document.createTextNode(item.description));
+                        root.appendChild(description_field);
 
-                            var price_field = document.createElement('p');
-                            var priceFieldId = "wish-price" + i;
-                            price_field.setAttribute("id", priceFieldId);
-                            price_field.appendChild(document.createTextNode(price));
-                            root.appendChild(price_field);
-                        });
+                        var price_field = document.createElement('p');
+                        var priceFieldId = "wish-price" + i;
+                        price_field.setAttribute("id", priceFieldId);
+                        price_field.appendChild(document.createTextNode(price));
+                        root.appendChild(price_field);
+                        //});
                     }
                 });
             });
@@ -287,7 +287,7 @@ $(document).ready(function () {
 
     //Show my friend's wishes
     $.ajax({
-        url: "http://localhost:8080/wishes/" + $("#friendId").val()
+        url: "http://localhost:8080/wishes/userid/" + $("#friendId").val()
     }).then(function (json) {
         if (typeof json != "undefined" && json != null && json.length > 0) {
             $("#friend-wishes").empty()
@@ -337,7 +337,10 @@ $(document).ready(function () {
                             $.ajax({
                                 url: "http://localhost:8080/presents/wishid/" + wish.idWish
                             }).then(function (sameWish) {
-                                var newPrice = wish.finalPrice / (sameWish.length + 1);
+                                if (typeof sameWish.length != "undefined" && sameWish.length != null && sameWish.length > 0) {
+                                    sameWish.length + 1;
+                                }
+                                var newPrice = wish.finalPrice / length;
                                 var wishWithNewPrice = {
                                     "idItem": wish.idItem,
                                     "idUser": wish.idUser,
@@ -361,5 +364,72 @@ $(document).ready(function () {
     });
 
     //Show my joins
-    
+    $("#show-joins").click(function () {
+        var userId = $("#id-user").val();
+        $.ajax({
+            url: "http://localhost:8080/presents/userid/" + userId
+        }).then(function (presents) {
+            $.each(presents, function (i, present) {
+                $.ajax({
+                    url: "http://localhost:8080/wishes/wishid/" + present.idwish
+                }).then(function (wish) {
+                    var price = wish.finalPrice;
+                    $.ajax({
+                        url: "http://localhost:8080/items/id/" + wish.idItem
+                    }).then(function (item) {
+                        var root = document.getElementById("joins");
+                        if (root) {
+                            var name_field = document.createElement('p');
+                            var nameFieldId = "wish-name" + i;
+                            name_field.setAttribute("id", nameFieldId);
+                            name_field.appendChild(document.createTextNode(item.name));
+                            root.appendChild(name_field);
+
+                            var description_field = document.createElement('p');
+                            var descriptionFieldId = "wish-description" + i;
+                            description_field.setAttribute("id", descriptionFieldId);
+                            description_field.appendChild(document.createTextNode(item.description));
+                            root.appendChild(description_field);
+
+                            var price_field = document.createElement('p');
+                            var priceFieldId = "wish-price" + i;
+                            price_field.setAttribute("id", priceFieldId);
+                            price_field.appendChild(document.createTextNode(price));
+                            root.appendChild(price_field);
+
+                            var createButton = document.createElement('input');
+                            createButton.type = 'button';
+                            createButton.value = 'Refuse';
+                            root.appendChild(createButton);
+                            createButton.onclick = function () {
+                                $.ajax({
+                                    url: "http://localhost:8080/presents/" + userId + "&" + wish.idWish,
+                                    type: "DELETE"
+                                }).then(function (){
+                                    $.ajax({
+                                        url: "http://localhost:8080/presents/wishid/" + wish.idWish
+                                    }).then(function (sameWish) {
+                                        var newPrice = item.price / (sameWish.length + 1);
+                                        alert(newPrice);
+                                        var wishWithNewPrice = {
+                                            "idItem": wish.idItem,
+                                            "idUser": wish.idUser,
+                                            "finalPrice": newPrice
+                                        };
+                                        $.ajax({
+                                            url: "http://localhost:8080/wishes/" + wish.idWish,
+                                            type: "PUT",
+                                            contentType: 'application/json; charset=utf-8',
+                                            data: JSON.stringify(wishWithNewPrice)
+                                        })
+                                    });
+                                });
+                            };
+                        }
+                    });
+                });
+            });
+        });
+    });
 });
+
