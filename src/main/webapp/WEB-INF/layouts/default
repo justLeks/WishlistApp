@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="wish.base" template="/WEB-INF/templates/default.jsp">
+        <put-attribute name="title" value="Title"/>
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"/>
+    </definition>
+
+    <definition name="homePage" extends="wish.base">
+        <put-attribute name="title" value="NC Wishlist"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/homePage.jsp"/>
+    </definition>
+
+    <definition name="login" extends="wish.base">
+        <put-attribute name="title" value="Login"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/login.jsp"/>
+    </definition>
+
+    <definition name="register" extends="wish.base">
+        <put-attribute name="title" value="Register"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/register.jsp"/>
+    </definition>
+
+    <definition name="newWish" extends="wish.base">
+        <put-attribute name="title" value="Add a New Wish"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/newWish.jsp"/>
+    </definition>
+
+    <definition name="personalRoom" extends="wish.base">
+        <put-attribute name="title" value="Personal Room"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/personalRoom.jsp"/>
+    </definition>
+
+    <definition name="friendPage" extends="wish.base">
+        <put-attribute name="title" value="Friend"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/friendPage.jsp"/>
+    </definition>
+</tiles-definitions>

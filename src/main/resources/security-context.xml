@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:jdbc-user-service data-source-ref="dataSource"
+                                        users-by-username-query="SELECT email, password, enabled FROM public.user WHERE email=?"
+                                        authorities-by-username-query="SELECT email, authority, enabled FROM public.user WHERE email=?"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <security:http use-expressions="true">
+        <security:csrf disabled="true"/>
+        <security:intercept-url pattern="/newwish" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/personalroom" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/" access="permitAll"/>
+        <security:form-login login-page="/login"/>
+        <security:logout logout-success-url="/" logout-url="/logout"/>
+    </security:http>
+
+    <security:global-method-security secured-annotations="enabled"/>
+
+</beans>

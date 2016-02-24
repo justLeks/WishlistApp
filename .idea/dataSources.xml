@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1885882602">
+    <data-source source="LOCAL" name="PostgreSQL - wishlist@localhost" uuid="36dc08e7-c8ca-44e3-b9f6-0e250c1a37e3">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/wishlist</jdbc-url>
+    </data-source>
+  </component>
+</project>
